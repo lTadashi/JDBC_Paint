@@ -2,17 +2,13 @@ package org.paint.desenho;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import org.paint.bd.BancoDados;
-import org.paint.primitivas.ControlePrimitivas;
-import org.paint.primitivas.Ponto;
 
 public class ControleDesenhos {
 	private BancoDados bd;
-	private ControlePrimitivas controlePrimitivas;
 
 	/**
 	 * Cria o Controle de Desenhos. O Controle de Desenhos permite salvar e
@@ -22,20 +18,18 @@ public class ControleDesenhos {
 	public ControleDesenhos() {
 		// Faz conexão com o Banco de Dados
 		this.bd = new BancoDados("jdbc:mysql://localhost/paint", "root", "root");
-
-		// Inicializa o controle de primitivas
-		controlePrimitivas = new ControlePrimitivas(bd);
 	}
 
 	/**
-	 * Salva o respectivo desenho no Banco de Dados.
+	 * Salva o respectivo desenho em branco no Banco de Dados. Isto é, salva as informações do desenho,
+	 * mas não o que está desenhado nele.
 	 * 
 	 * @param aDesenho
 	 *            Desenho a ser salvo no Banco de Dados.
 	 * @return Retorna o <code>id</code> do desenho, ou -1 caso tenha acontecido
 	 *         algum erro.
 	 */
-	public int salvarDesenho(Desenho aDesenho) {
+	public int salvarDesenhoEmBranco(Desenho aDesenho) {
 		String sql = "INSERT INTO desenhos (nome_desenho) VALUES ('"
 				+ aDesenho.getNomeDesenho() + "');";
 
@@ -58,8 +52,6 @@ public class ControleDesenhos {
 						JOptionPane.showMessageDialog(null, sqlEx.getMessage());
 					}
 				}
-				
-				// TODO Salvar as primitivas do desenho
 			}
 		}
 
@@ -67,7 +59,8 @@ public class ControleDesenhos {
 	}
 
 	/**
-	 * Remove o desenho do Banco de Dados.
+	 * Remove o desenho em branco do Banco de Dados. Isto é, remove as informações do desenho,
+	 * mas não o que está desenhado nele.
 	 * 
 	 * @param aDesenho
 	 * Desenho a ser removido.
@@ -75,45 +68,17 @@ public class ControleDesenhos {
 	 * Retorna <code>true</code> caso o desenho tenha sido removido do Banco de Dados, e
 	 * retorna <code>false</code> caso tenha acontecido um erro.
 	 */
-	public boolean removerDesenho(Desenho aDesenho) {
+	public boolean removerDesenhoEmBranco(Desenho aDesenho) {
 		String sql = "DELETE FROM desenhos " + "WHERE id = "
 				+ aDesenho.getIdDesenho() + ";";
         
 		if (!bd.executarSQL(sql)) {
 			if (bd.getNumLinhasAfetadas() == 1) {
-				// TODO Remover as primitivas do desenho
-				
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	 * Salva os respectivos pontos no Banco de Dados.
-	 * 
-	 * @param aPontos
-	 *            Pontos a serem salvos no Banco de Dados.
-	 * @return Retorna <code>true</code> caso os pontos tenham sido salvos no
-	 *         Banco de Dados, e retorna <code>false</code> caso tenha
-	 *         acontecido um erro durante o processo de salvar os pontos.
-	 */
-	public boolean salvarPontos(List<Ponto> aPontos) {
-		return controlePrimitivas.salvarPontos(aPontos);
-	}
-
-	/**
-	 * Remove os respectivos pontos do Banco de Dados.
-	 * 
-	 * @param aPontos
-	 *            Pontos a serem removidos do Banco de Dados.
-	 * @return Retorna <code>true</code> caso os pontos tenham sido removidos do
-	 *         Banco de Dados, e retorna <code>false</code> caso tenha
-	 *         acontecido um erro durante o processo de remover os pontos.
-	 */
-	public boolean removerPontos(List<Ponto> aPontos) {
-		return controlePrimitivas.removerPontos(aPontos);
 	}
 	
 	/******************************************************************************************/
@@ -134,9 +99,7 @@ public class ControleDesenhos {
 				
 				Desenho novoDesenho = new Desenho(nome);
 				novoDesenho.setIdDesenho(id);
-				
-				// TODO Adquirir as primitivas do desenho
-				
+
 				return novoDesenho;
 			} catch(SQLException sqlEx) {
 				JOptionPane.showMessageDialog(null, sqlEx.getMessage());

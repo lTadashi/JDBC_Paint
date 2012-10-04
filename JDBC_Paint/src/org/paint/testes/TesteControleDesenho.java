@@ -39,7 +39,7 @@ public class TesteControleDesenho {
 	 */
 	public void testeSalvarDesenho() {
 		// Salva o desenho e define o id do desenho
-		desenho.setIdDesenho(controleDesenho.salvarDesenho(desenho));
+		desenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(desenho));
 
 		// Adquire o id do último desenho
 		String sql = "SELECT MAX(id) as id " + "FROM desenhos";
@@ -91,7 +91,7 @@ public class TesteControleDesenho {
 		desenho.setIdDesenho(ultimaId);
 
 		// Verifica se o desenho é removido do Banco de Dados
-		assertTrue(controleDesenho.removerDesenho(desenho));
+		assertTrue(controleDesenho.removerDesenhoEmBranco(desenho));
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class TesteControleDesenho {
 	 */
 	public void testeAdquireDesenho() {
 		// Salva o desenho e adquire o número da id
-		desenho.setIdDesenho(controleDesenho.salvarDesenho(desenho));
+		desenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(desenho));
 
 		Desenho novoDesenho = controleDesenho
 				.getDesenho(desenho.getIdDesenho());
@@ -109,8 +109,6 @@ public class TesteControleDesenho {
 		Assert.assertEquals(desenho.getIdDesenho(), novoDesenho.getIdDesenho());
 		
 		// Remove o novo desenho
-	    controleDesenho.removerDesenho(novoDesenho);
-		
-		// TODO Testar o retorno de primitivas do desenho
+	    controleDesenho.removerDesenhoEmBranco(novoDesenho);
 	}
 }

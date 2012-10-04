@@ -3,6 +3,7 @@ package org.paint.desenho;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.paint.primitivas.ControlePrimitivas;
 import org.paint.primitivas.Ponto;
 
 public class Desenho {
@@ -11,8 +12,9 @@ public class Desenho {
 	
 	// Conexão com o Banco de Dados
 	
-	// Controle
+	// Controles
 	private ControleDesenhos controleDesenho;
+	private ControlePrimitivas controlePrimitivas;
 	
 	// Primitivas
 	private List<Ponto> pontos;
@@ -25,7 +27,7 @@ public class Desenho {
 	 */
 	public Desenho(String aNomeDesenho) {
 		this.nomeDesenho = aNomeDesenho;
-		this.idDesenho = 0;
+		this.idDesenho = -1;
 		
 		// Inicializa o controle de desenho
 		controleDesenho = new ControleDesenhos();
@@ -35,38 +37,30 @@ public class Desenho {
 	}
 	
 	/**
-	 * Salva o desenho no Banco de Dados.
+	 * Salva o desenho em branco no Banco de Dados. Isto é, salva as informações do desenho,
+	 * mas não o que está desenhado nele.
 	 * 
 	 * @return
 	 * Retorna <code>true</code> caso o desenho seja salvo no Banco de Dados, 
 	 * e retorna <code>false</code> caso ocorra algum erro.
 	 */
-	public boolean salvarDesenho() {
+	public boolean salvarDesenhoEmBranco() {
 		// Salva o desenho
-		idDesenho = controleDesenho.salvarDesenho(this);
-		
-		// TODO adicionar todas as primitivas
-		// Salva as primitivas
-		if(salvarTodosPontos()) {
-			return true;
-		}
+		idDesenho = controleDesenho.salvarDesenhoEmBranco(this);
 		
 		return false;
 	}
 	
 	/**
-	 * Remove o desenho do Banco de Dados.
+	 * Remove o desenho em branco do Banco de Dados. Isto é, remove as informações do desenho,
+	 * mas não o que está desenhado nele.
 	 * 
 	 * @return
 	 * Retorna <code>true</code> caso o desenho tenha sido removido do Banco de Dados, 
 	 * e retorna <code>false</code> caso ocorra algum erro.
 	 */
-	public boolean removerDesenho() {
-		// TODO adicionar todas as primitivas
-		// Remove as primitivas
-		if(removerTodosPontos()) {
-			return true;
-		}
+	public boolean removerDesenhoEmBranco() {
+		controleDesenho.removerDesenhoEmBranco(this);
 		
 		return false;
 	}
@@ -79,9 +73,17 @@ public class Desenho {
 	 */
 	public void adicionarPonto(Ponto aPonto) {
 		// Define este desenho como dono do ponto
-		aPonto.setDesenho(this.idDesenho);
-		
 		pontos.add(aPonto);
+	}
+	
+	/**
+	 * Remove um respectivo ponto do desenho.
+	 * 
+	 * @param aPonto
+	 * Indice do ponto na lista de pontos do desenho.
+	 */
+	public void removerPonto(int aPonto) {
+		pontos.remove(aPonto);
 	}
 	
 	/**
@@ -92,7 +94,7 @@ public class Desenho {
 	 * ocorra algum erro ao salvar os pontos.
 	 */
 	private boolean salvarTodosPontos() {
-		return controleDesenho.salvarPontos(pontos);
+		return controlePrimitivas.salvarPontos(idDesenho, pontos);
 	}
 	
 	/**
@@ -103,7 +105,7 @@ public class Desenho {
 	 * ocorra algum erro ao remover os pontos.
 	 */
 	private boolean removerTodosPontos() {
-		if(controleDesenho.removerPontos(pontos)) {
+		if(controlePrimitivas.removerPontos(idDesenho, pontos)) {
 			pontos.clear();
 			return true;
 		}

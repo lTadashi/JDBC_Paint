@@ -28,9 +28,9 @@ public class ControlePrimitivas {
 	 * e retorna <code>false</code> caso tenha acontecido um erro durante o processo
 	 * de salvar os pontos.
 	 */
-	public boolean salvarPontos(List<Ponto> aPontos) {
+	public boolean salvarPontos(int aIdDesenho, List<Ponto> aPontos) {
 		for(Ponto ponto : aPontos) {
-			String sql = "INSERT INTO pontos" + " VALUES (" + ponto.getDesenho()
+			String sql = "INSERT INTO pontos" + " VALUES (" + aIdDesenho
 					+ "," + ponto.getX() + "," + ponto.getY() + ");";
 			
 			bd.adicionarBatch(sql);
@@ -55,10 +55,10 @@ public class ControlePrimitivas {
 	 * e retorna <code>false</code> caso tenha acontecido um erro durante o processo
 	 * de remover os pontos.
 	 */
-	public boolean removerPontos(List<Ponto> aPontos) {
+	public boolean removerPontos(int aIdDesenho, List<Ponto> aPontos) {
 		for(Ponto ponto : aPontos) {
 			String sql = "DELETE FROM pontos" +
-					 " WHERE id_desenho = " + ponto.getDesenho() +
+					 " WHERE id_desenho = " + aIdDesenho +
 					 " AND pos_x = " + ponto.getX() +
 					 " AND pos_y = " + ponto.getY();
 			
