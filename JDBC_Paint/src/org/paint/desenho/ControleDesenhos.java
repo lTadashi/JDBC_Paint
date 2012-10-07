@@ -14,10 +14,12 @@ public class ControleDesenhos {
 	 * Cria o Controle de Desenhos. O Controle de Desenhos permite salvar e
 	 * remover desenhos inteiros, ou primitivas de um respectivo desenho do
 	 * Banco de Dados.
+	 * 
+	 * 
 	 */
-	public ControleDesenhos() {
+	public ControleDesenhos(BancoDados aBancoDados) {
 		// Faz conexão com o Banco de Dados
-		this.bd = new BancoDados("jdbc:mysql://localhost/paint", "root", "root");
+		this.bd = aBancoDados;
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class ControleDesenhos {
 				int id = resultado.getInt(1);
 				String nome = resultado.getString(2);
 				
-				Desenho novoDesenho = new Desenho(nome);
+				Desenho novoDesenho = new Desenho(nome, bd);
 				novoDesenho.setIdDesenho(id);
 
 				return novoDesenho;

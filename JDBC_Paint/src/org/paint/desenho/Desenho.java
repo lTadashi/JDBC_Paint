@@ -3,8 +3,10 @@ package org.paint.desenho;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.paint.bd.BancoDados;
 import org.paint.primitivas.ControlePrimitivas;
 import org.paint.primitivas.Ponto;
+import org.paint.primitivas.Reta;
 
 public class Desenho {
 	private int idDesenho;
@@ -18,6 +20,7 @@ public class Desenho {
 	
 	// Primitivas
 	private List<Ponto> pontos;
+	private List<Reta> retas;
 	
 	/**
 	 * Cria um novo desenho.
@@ -25,15 +28,17 @@ public class Desenho {
 	 * @param aNomeDesenho
 	 * Nome do desenho.
 	 */
-	public Desenho(String aNomeDesenho) {
+	public Desenho(String aNomeDesenho, BancoDados aBancoDados) {
 		this.nomeDesenho = aNomeDesenho;
 		this.idDesenho = -1;
 		
-		// Inicializa o controle de desenho
-		controleDesenho = new ControleDesenhos();
+		// Inicializa os controles
+		controleDesenho = new ControleDesenhos(aBancoDados);
+		controlePrimitivas = new ControlePrimitivas(aBancoDados);
 		
 		// Inicializa as primitivas
 		pontos = new ArrayList<Ponto>();
+		retas = new ArrayList<Reta>();
 	}
 	
 	/**
@@ -48,6 +53,10 @@ public class Desenho {
 		// Salva o desenho
 		idDesenho = controleDesenho.salvarDesenhoEmBranco(this);
 		
+		if(idDesenho != -1) {
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -60,13 +69,11 @@ public class Desenho {
 	 * e retorna <code>false</code> caso ocorra algum erro.
 	 */
 	public boolean removerDesenhoEmBranco() {
-		controleDesenho.removerDesenhoEmBranco(this);
-		
-		return false;
+		return controleDesenho.removerDesenhoEmBranco(this);
 	}
 	
 	/**
-	 * Adiciona o respectivo ponto ao desenho.
+	 * Adiciona o respectivo ponto a lista de pontos do desenho.
 	 * 
 	 * @param aPonto
 	 * Ponto a ser adicionado a o desenho.
@@ -77,13 +84,31 @@ public class Desenho {
 	}
 	
 	/**
-	 * Remove um respectivo ponto do desenho.
+	 * Remove um respectivo ponto da lista de pontos do desenho.
 	 * 
-	 * @param aPonto
+	 * @param aIndicePonto
 	 * Indice do ponto na lista de pontos do desenho.
 	 */
-	public void removerPonto(int aPonto) {
-		pontos.remove(aPonto);
+	public void removerPonto(int aIndicePonto) {
+		pontos.remove(aIndicePonto);
+	}
+	
+	/**
+	 * Adiciona a respectiva reta a lista de retas do desenho.
+	 * @param aReta
+	 * Reta a ser adicionada a lista de retas do desenho.
+	 */
+	public void adicionarReta(Reta aReta) {
+		retas.add(aReta);
+	}
+	
+	/**
+	 * Remove uma respectiva reta da lista de retas do desenho.
+	 * @param aIndiceReta
+	 * Indice da reta na lista de retas do desenho.
+	 */
+	public void removerReta(int aIndiceReta) {
+		retas.remove(aIndiceReta);
 	}
 	
 	/**
@@ -131,6 +156,17 @@ public class Desenho {
 	public void setIdDesenho(int idDesenho) {
 		this.idDesenho = idDesenho;
 	}
+	
+	/**
+	 * Retorna o ponto em uma determinada posição na lista de pontos do desenho.
+	 * @param aIndicePonto
+	 * O indice do ponto na lista de pontos do desenho.
+	 * @return
+	 * O respectivo ponto na posição informada.
+	 */
+	public Ponto getPonto(int aIndicePonto) {
+		return pontos.get(aIndicePonto);
+	}
 
 	public List<Ponto> getPontos() {
 		return pontos;
@@ -138,5 +174,24 @@ public class Desenho {
 
 	public void setPontos(List<Ponto> pontos) {
 		this.pontos = pontos;
+	}
+
+	/**
+	 * Retorna a reta em uma determinada posição na lista de retas do desenho.
+	 * @param aIndiceReta
+	 * Indice da reta na lista de retas do desenho.
+	 * @return
+	 * A respectiva reta na posição informada.
+	 */
+	public Reta getReta(int aIndiceReta) {
+		return retas.get(aIndiceReta);
+	}
+	
+	public List<Reta> getRetas() {
+		return retas;
+	}
+
+	public void setRetas(List<Reta> retas) {
+		this.retas = retas;
 	}
 }

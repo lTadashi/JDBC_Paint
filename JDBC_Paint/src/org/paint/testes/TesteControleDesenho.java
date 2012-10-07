@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -19,7 +17,6 @@ public class TesteControleDesenho {
 	private BancoDados bd;
 	private Desenho desenho;
 	private ControleDesenhos controleDesenho;
-	private int ultimaId;
 
 	@Before
 	public void inicializacao() {
@@ -27,23 +24,24 @@ public class TesteControleDesenho {
 		bd = new BancoDados("jdbc:mysql://localhost/paint", "root", "root");
 
 		// Inicializa o controle de desenho
-		controleDesenho = new ControleDesenhos();
+		controleDesenho = new ControleDesenhos(bd);
 
 		// Cria um novo desenho
-		desenho = new Desenho("Desenho Teste");
+		desenho = new Desenho("Desenho Teste", bd);
 	}
 
 	@Test
 	/**
-	 * Testa se o desenho é salvo no Banco de Dados.
+	 * Testa se o desenho é salvo e removido do Banco de Dados.
 	 */
-	public void testeSalvarDesenho() {
+	public void testeSalvarRemoverDesenho() {
 		// Salva o desenho e define o id do desenho
 		desenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(desenho));
 
 		// Adquire o id do último desenho
 		String sql = "SELECT MAX(id) as id " + "FROM desenhos";
 
+		int ultimaId = 0;		
 		if (bd.executarSQL(sql)) {
 			try {
 				// Adquire o resultado
@@ -54,42 +52,12 @@ public class TesteControleDesenho {
 
 				ultimaId = resultado.getInt(1);
 			} catch (SQLException sqlEx) {
-				JOptionPane.showMessageDialog(null, sqlEx.getMessage());
+				sqlEx.printStackTrace();
 			}
-		} else {
-			ultimaId = 0;
 		}
 
 		Assert.assertEquals(ultimaId, desenho.getIdDesenho());
-	}
-
-	@Test
-	/**
-	 * Verifica se o desenho é removido do Banco de Dados.
-	 */
-	public void testeRemoverDesenho() {
-		// Adquire o id do último desenho
-		String sql = "SELECT MAX(id) as id " + "FROM desenhos";
-
-		if (bd.executarSQL(sql)) {
-			try {
-				// Adquire o resultado
-				ResultSet resultado = bd.getResultSet();
-
-				// Vai para a segunda linha do resultado
-				resultado.next();
-
-				ultimaId = resultado.getInt(1);
-			} catch (SQLException sqlEx) {
-				JOptionPane.showMessageDialog(null, sqlEx.getMessage());
-			}
-		} else {
-			ultimaId = 0;
-		}
-
-		// Define a id do desenho
-		desenho.setIdDesenho(ultimaId);
-
+		
 		// Verifica se o desenho é removido do Banco de Dados
 		assertTrue(controleDesenho.removerDesenhoEmBranco(desenho));
 	}

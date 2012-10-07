@@ -1,7 +1,7 @@
 package org.paint.primitivas;
 
 public class Ponto {
-	private double x, y;
+	private int x, y;
 	
 	/**
 	 * Cria um novo ponto.
@@ -11,7 +11,7 @@ public class Ponto {
 	 * @param aY
 	 * Posição do ponto no eixo Y.
 	 */
-	public Ponto(double aX, double aY) {
+	public Ponto(int aX, int aY) {
 		this.x = aX;
 		this.y = aY;
 	}
@@ -19,19 +19,19 @@ public class Ponto {
 	/******************************************************************************************/
 	/********************************** Getters e Setters *************************************/
 	/******************************************************************************************/
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 }
