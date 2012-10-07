@@ -1,29 +1,12 @@
 package org.paint.primitivas;
 
-public class Reta {
-	private int x1, y1, x2, y2;
+public class Reta extends Primitiva {
+	private int x2, y2;
 	
 	public Reta(int aX1, int aY1, int aX2, int aY2) {
-		x1 = aX1;
-		y1 = aY1;
+		super(aX1, aY1);
 		x2 = aX2;
 		y2 = aY2;
-	}
-
-	public int getX1() {
-		return x1;
-	}
-
-	public void setX1(int x1) {
-		this.x1 = x1;
-	}
-
-	public int getY1() {
-		return y1;
-	}
-
-	public void setY1(int y1) {
-		this.y1 = y1;
 	}
 
 	public int getX2() {

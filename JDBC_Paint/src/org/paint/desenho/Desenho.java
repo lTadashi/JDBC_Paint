@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.paint.bd.BancoDados;
 import org.paint.primitivas.ControlePrimitivas;
+import org.paint.primitivas.Elipse;
 import org.paint.primitivas.Ponto;
 import org.paint.primitivas.Reta;
+import org.paint.primitivas.Retangulo;
 
 public class Desenho {
 	private int idDesenho;
@@ -21,6 +23,8 @@ public class Desenho {
 	// Primitivas
 	private List<Ponto> pontos;
 	private List<Reta> retas;
+	private List<Retangulo> retangulos;
+	private List<Elipse> elipses;
 	
 	/**
 	 * Cria um novo desenho.
@@ -39,6 +43,8 @@ public class Desenho {
 		// Inicializa as primitivas
 		pontos = new ArrayList<Ponto>();
 		retas = new ArrayList<Reta>();
+		retangulos = new ArrayList<Retangulo>();
+		elipses = new ArrayList<Elipse>();
 	}
 	
 	/**
@@ -109,6 +115,42 @@ public class Desenho {
 	 */
 	public void removerReta(int aIndiceReta) {
 		retas.remove(aIndiceReta);
+	}
+	
+	/**
+	 * Adiciona o respectivo retângulo a lista de retângulos do desenho.
+	 * @param aRetangulo
+	 * Retângulo a ser adicionado a lista de retângulos do desenho.
+	 */
+	public void adicionarRetangulo(Retangulo aRetangulo) {
+		retangulos.add(aRetangulo);
+	}
+	
+	/**
+	 * Remove o respectivo retângulo da lista de retângulos do desenho.
+	 * @param aIndiceRetangulo
+	 * Indice do retângulo a ser removido da lista de retângulos do desenho.
+	 */
+	public void removerRetangulo(int aIndiceRetangulo) {
+		retangulos.remove(aIndiceRetangulo);
+	}
+	
+	/**
+	 * Adiciona a respectiva elipse a lista de elipses do desenho.
+	 * @param aElipse
+	 * Elipse a ser adicionada a lista de elipses do desenho.
+	 */
+	public void adicionarElipse(Elipse aElipse) {
+		elipses.add(aElipse);
+	}
+	
+	/**
+	 * Remove a respectiva elipse da lista de elipses do desenho.
+	 * @param aIndiceElipse
+	 * Indice da elipse a ser removida da lista de elipses do desenho.
+	 */
+	public void removerElipse(int aIndiceElipse) {
+		elipses.remove(aIndiceElipse);
 	}
 	
 	/**
@@ -193,5 +235,43 @@ public class Desenho {
 
 	public void setRetas(List<Reta> retas) {
 		this.retas = retas;
+	}
+
+	/**
+	 * Retorna o retângulo em uma determinada posição na lista de retângulos do desenho.
+	 * @param aIndiceRetangulo
+	 * Indice do retângulo na lista de retângulos do desenho.
+	 * @return
+	 * O respectivo retângulo na posição informada.
+	 */
+	public Retangulo getRetangulo(int aIndiceRetangulo) {
+		return retangulos.get(aIndiceRetangulo);
+	}
+	
+	public List<Retangulo> getRetangulos() {
+		return retangulos;
+	}
+
+	public void setRetangulos(List<Retangulo> retangulos) {
+		this.retangulos = retangulos;
+	}
+	
+	/**
+	 * Retorna a elipse em uma determinada posição na lista de elipses do desenho.
+	 * @param aIndiceElipse
+	 * Indice da elipse na lista de elipses do desenho.
+	 * @return
+	 * A respectiva elipse na posição informada.
+	 */
+	public Elipse getElipse(int aIndiceElipse) {
+		return elipses.get(aIndiceElipse);
+	}
+
+	public List<Elipse> getElipses() {
+		return elipses;
+	}
+
+	public void setElipses(List<Elipse> elipses) {
+		this.elipses = elipses;
 	}
 }

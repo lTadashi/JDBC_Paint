@@ -11,8 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.paint.bd.BancoDados;
 import org.paint.desenho.Desenho;
+import org.paint.primitivas.Elipse;
 import org.paint.primitivas.Ponto;
 import org.paint.primitivas.Reta;
+import org.paint.primitivas.Retangulo;
 
 public class TesteDesenho {
 	private BancoDados bd;
@@ -36,15 +38,23 @@ public class TesteDesenho {
 
 		desenho.adicionarPonto(p);
 		Assert.assertEquals(1, desenho.getPontos().size());
+		Assert.assertEquals(0, desenho.getPonto(0).getX());
+		Assert.assertEquals(0, desenho.getPonto(0).getY());
 
 		desenho.adicionarPonto(p1);
 		Assert.assertEquals(2, desenho.getPontos().size());
+		Assert.assertEquals(2147483647, desenho.getPonto(1).getX());
+		Assert.assertEquals(0, desenho.getPonto(1).getY());
 
 		desenho.adicionarPonto(p2);
 		Assert.assertEquals(3, desenho.getPontos().size());
+		Assert.assertEquals(0, desenho.getPonto(2).getX());
+		Assert.assertEquals(2147483647, desenho.getPonto(2).getY());
 
 		desenho.adicionarPonto(p3);
 		Assert.assertEquals(4, desenho.getPontos().size());
+		Assert.assertEquals(2147483647, desenho.getPonto(3).getX());
+		Assert.assertEquals(2147483647, desenho.getPonto(3).getY());
 	}
 
 	@Test
@@ -81,7 +91,7 @@ public class TesteDesenho {
 		Assert.assertEquals(2147483647, desenho.getPonto(1).getX());
 		Assert.assertEquals(2147483647, desenho.getPonto(1).getY());
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adicionar retas a lista de retas do desenho.
@@ -97,20 +107,40 @@ public class TesteDesenho {
 
 		desenho.adicionarReta(reta);
 		Assert.assertEquals(1, desenho.getRetas().size());
+		Assert.assertEquals(0, desenho.getReta(0).getX());
+		Assert.assertEquals(0, desenho.getReta(0).getY());
+		Assert.assertEquals(2147483647, desenho.getReta(0).getX2());
+		Assert.assertEquals(0, desenho.getReta(0).getY2());
 
 		desenho.adicionarReta(reta1);
 		Assert.assertEquals(2, desenho.getRetas().size());
+		Assert.assertEquals(2147483647, desenho.getReta(1).getX());
+		Assert.assertEquals(0, desenho.getReta(1).getY());
+		Assert.assertEquals(2147483647, desenho.getReta(1).getX2());
+		Assert.assertEquals(2147483647, desenho.getReta(1).getY2());
 
 		desenho.adicionarReta(reta2);
 		Assert.assertEquals(3, desenho.getRetas().size());
+		Assert.assertEquals(2147483647, desenho.getReta(2).getX());
+		Assert.assertEquals(2147483647, desenho.getReta(2).getY());
+		Assert.assertEquals(0, desenho.getReta(2).getX2());
+		Assert.assertEquals(2147483647, desenho.getReta(2).getY2());
 
 		desenho.adicionarReta(reta3);
 		Assert.assertEquals(4, desenho.getRetas().size());
-		
+		Assert.assertEquals(0, desenho.getReta(3).getX());
+		Assert.assertEquals(2147483647, desenho.getReta(3).getY());
+		Assert.assertEquals(0, desenho.getReta(3).getX2());
+		Assert.assertEquals(0, desenho.getReta(3).getY2());
+
 		desenho.adicionarReta(reta4);
 		Assert.assertEquals(5, desenho.getRetas().size());
+		Assert.assertEquals(0, desenho.getReta(4).getX());
+		Assert.assertEquals(0, desenho.getReta(4).getY());
+		Assert.assertEquals(2147483647, desenho.getReta(4).getX2());
+		Assert.assertEquals(2147483647, desenho.getReta(4).getY2());
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível remover retas da lista de retas do desenho.
@@ -140,15 +170,177 @@ public class TesteDesenho {
 		Assert.assertEquals(2, desenho.getRetas().size());
 
 		// Verifica se as retas restantes na lista de retas são as esperadas
-		Assert.assertEquals(2147483647, desenho.getReta(0).getX1());
-		Assert.assertEquals(0, desenho.getReta(0).getY1());
+		Assert.assertEquals(2147483647, desenho.getReta(0).getX());
+		Assert.assertEquals(0, desenho.getReta(0).getY());
 		Assert.assertEquals(2147483647, desenho.getReta(0).getX2());
 		Assert.assertEquals(2147483647, desenho.getReta(0).getY2());
-		
-		Assert.assertEquals(0, desenho.getReta(1).getX1());
-		Assert.assertEquals(2147483647, desenho.getReta(1).getY1());
+
+		Assert.assertEquals(0, desenho.getReta(1).getX());
+		Assert.assertEquals(2147483647, desenho.getReta(1).getY());
 		Assert.assertEquals(0, desenho.getReta(1).getX2());
 		Assert.assertEquals(0, desenho.getReta(1).getY2());
+	}
+
+	@Test
+	/**
+	 * Testa se é possível adicionar retângulos a lista de retângulos do desenho.
+	 */
+	public void testeAdicionarRetangulos() {
+		Desenho desenho = new Desenho("Desenho Teste", bd);
+
+		Retangulo retangulo = new Retangulo(0, 0, 0, 0);
+		Retangulo retangulo1 = new Retangulo(0, 0, 2147483647, 2147483647);
+		Retangulo retangulo2 = new Retangulo(0, 0, 200, 200);
+		Retangulo retangulo3 = new Retangulo(100, 100, 200, 200);
+
+		desenho.adicionarRetangulo(retangulo);
+		Assert.assertEquals(1, desenho.getRetangulos().size());
+		Assert.assertEquals(0, desenho.getRetangulo(0).getX());
+		Assert.assertEquals(0, desenho.getRetangulo(0).getY());
+		Assert.assertEquals(0, desenho.getRetangulo(0).getLargura());
+		Assert.assertEquals(0, desenho.getRetangulo(0).getAltura());
+
+		desenho.adicionarRetangulo(retangulo1);
+		Assert.assertEquals(2, desenho.getRetangulos().size());
+		Assert.assertEquals(0, desenho.getRetangulo(1).getX());
+		Assert.assertEquals(0, desenho.getRetangulo(1).getY());
+		Assert.assertEquals(2147483647, desenho.getRetangulo(1).getLargura());
+		Assert.assertEquals(2147483647, desenho.getRetangulo(1).getAltura());
+
+		desenho.adicionarRetangulo(retangulo2);
+		Assert.assertEquals(3, desenho.getRetangulos().size());
+		Assert.assertEquals(0, desenho.getRetangulo(2).getX());
+		Assert.assertEquals(0, desenho.getRetangulo(2).getY());
+		Assert.assertEquals(200, desenho.getRetangulo(2).getLargura());
+		Assert.assertEquals(200, desenho.getRetangulo(2).getAltura());
+
+		desenho.adicionarRetangulo(retangulo3);
+		Assert.assertEquals(4, desenho.getRetangulos().size());
+		Assert.assertEquals(100, desenho.getRetangulo(3).getX());
+		Assert.assertEquals(100, desenho.getRetangulo(3).getY());
+		Assert.assertEquals(200, desenho.getRetangulo(3).getLargura());
+		Assert.assertEquals(200, desenho.getRetangulo(3).getAltura());
+	}
+
+	@Test
+	/**
+	 * Testa se é possível remover retângulos da lista de retângulos do desenho.
+	 */
+	public void testeRemoverRetangulos() {
+		Desenho desenho = new Desenho("Desenho Teste", bd);
+
+		Retangulo retangulo = new Retangulo(0, 0, 0, 0);
+		Retangulo retangulo1 = new Retangulo(0, 0, 2147483647, 2147483647);
+		Retangulo retangulo2 = new Retangulo(0, 0, 200, 200);
+		Retangulo retangulo3 = new Retangulo(100, 100, 200, 200);
+		Retangulo retangulo4 = new Retangulo(200, 200, 5, 5);
+
+		desenho.adicionarRetangulo(retangulo);
+		desenho.adicionarRetangulo(retangulo1);
+		desenho.adicionarRetangulo(retangulo2);
+		desenho.adicionarRetangulo(retangulo3);
+		desenho.adicionarRetangulo(retangulo4);
+
+		desenho.removerRetangulo(0);
+		Assert.assertEquals(4, desenho.getRetangulos().size());
+
+		desenho.removerRetangulo(3);
+		Assert.assertEquals(3, desenho.getRetangulos().size());
+
+		desenho.removerRetangulo(1);
+		Assert.assertEquals(2, desenho.getRetangulos().size());
+
+		// Verifica se os retângulos restantes na lista de retângulos são os esperados
+		Assert.assertEquals(0, desenho.getRetangulo(0).getX());
+		Assert.assertEquals(0, desenho.getRetangulo(0).getY());
+		Assert.assertEquals(2147483647, desenho.getRetangulo(0).getLargura());
+		Assert.assertEquals(2147483647, desenho.getRetangulo(0).getAltura());
+
+		Assert.assertEquals(100, desenho.getRetangulo(1).getX());
+		Assert.assertEquals(100, desenho.getRetangulo(1).getY());
+		Assert.assertEquals(200, desenho.getRetangulo(1).getLargura());
+		Assert.assertEquals(200, desenho.getRetangulo(1).getAltura());
+	}
+	
+	@Test
+	/**
+	 * Testa se é possível adicionar elipses a lista de elipses do desenho.
+	 */
+	public void testeAdicionarElipses() {
+		Desenho desenho = new Desenho("Desenho Teste", bd);
+
+		Elipse elipse = new Elipse(0, 0, 0, 0);
+		Elipse elipse1 = new Elipse(0, 0, 2147483647, 2147483647);
+		Elipse elipse2 = new Elipse(0, 0, 200, 200);
+		Elipse elipse3 = new Elipse(100, 100, 200, 200);
+
+		desenho.adicionarElipse(elipse);
+		Assert.assertEquals(1, desenho.getElipses().size());
+		Assert.assertEquals(0, desenho.getElipse(0).getX());
+		Assert.assertEquals(0, desenho.getElipse(0).getY());
+		Assert.assertEquals(0, desenho.getElipse(0).getLargura());
+		Assert.assertEquals(0, desenho.getElipse(0).getAltura());
+
+		desenho.adicionarElipse(elipse1);
+		Assert.assertEquals(2, desenho.getElipses().size());
+		Assert.assertEquals(0, desenho.getElipse(1).getX());
+		Assert.assertEquals(0, desenho.getElipse(1).getY());
+		Assert.assertEquals(2147483647, desenho.getElipse(1).getLargura());
+		Assert.assertEquals(2147483647, desenho.getElipse(1).getAltura());
+
+		desenho.adicionarElipse(elipse2);
+		Assert.assertEquals(3, desenho.getElipses().size());
+		Assert.assertEquals(0, desenho.getElipse(2).getX());
+		Assert.assertEquals(0, desenho.getElipse(2).getY());
+		Assert.assertEquals(200, desenho.getElipse(2).getLargura());
+		Assert.assertEquals(200, desenho.getElipse(2).getAltura());
+
+		desenho.adicionarElipse(elipse3);
+		Assert.assertEquals(4, desenho.getElipses().size());
+		Assert.assertEquals(100, desenho.getElipse(3).getX());
+		Assert.assertEquals(100, desenho.getElipse(3).getY());
+		Assert.assertEquals(200, desenho.getElipse(3).getLargura());
+		Assert.assertEquals(200, desenho.getElipse(3).getAltura());
+	}
+	
+	@Test
+	/**
+	 * Testa se é possível remover elipses da lista de elipses do desenho.
+	 */
+	public void testeRemoverElipses() {
+		Desenho desenho = new Desenho("Desenho Teste", bd);
+
+		Elipse elipse = new Elipse(0, 0, 0, 0);
+		Elipse elipse1 = new Elipse(0, 0, 2147483647, 2147483647);
+		Elipse elipse2 = new Elipse(0, 0, 200, 200);
+		Elipse elipse3 = new Elipse(100, 100, 200, 200);
+		Elipse elipse4 = new Elipse(1, 1, 500, 500);
+
+		desenho.adicionarElipse(elipse);
+		desenho.adicionarElipse(elipse1);
+		desenho.adicionarElipse(elipse2);
+		desenho.adicionarElipse(elipse3);
+		desenho.adicionarElipse(elipse4);
+		
+		desenho.removerElipse(0);
+		Assert.assertEquals(4, desenho.getElipses().size());
+
+		desenho.removerElipse(3);
+		Assert.assertEquals(3, desenho.getElipses().size());
+
+		desenho.removerElipse(1);
+		Assert.assertEquals(2, desenho.getElipses().size());
+
+		// Verifica se as elipses restantes na lista de elipses são as esperadas
+		Assert.assertEquals(0, desenho.getElipse(0).getX());
+		Assert.assertEquals(0, desenho.getElipse(0).getY());
+		Assert.assertEquals(2147483647, desenho.getElipse(0).getLargura());
+		Assert.assertEquals(2147483647, desenho.getElipse(0).getAltura());
+
+		Assert.assertEquals(100, desenho.getElipse(1).getX());
+		Assert.assertEquals(100, desenho.getElipse(1).getY());
+		Assert.assertEquals(200, desenho.getElipse(1).getLargura());
+		Assert.assertEquals(200, desenho.getElipse(1).getAltura());
 	}
 
 	@Test
@@ -162,7 +354,7 @@ public class TesteDesenho {
 
 		// Adquire o id do último desenho
 		String sql = "SELECT MAX(id) as id " + "FROM desenhos";
-		
+
 		int ultimaId = 0;
 		if (bd.executarSQL(sql)) {
 			try {
@@ -177,9 +369,9 @@ public class TesteDesenho {
 				sqlEx.printStackTrace();
 			}
 		}
-		
+
 		Assert.assertEquals(ultimaId, desenho.getIdDesenho());
-		
+
 		// Verifica se o desenho é removido do Banco de Dados
 		assertTrue(desenho.removerDesenhoEmBranco());
 	}
