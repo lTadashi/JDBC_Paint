@@ -1,8 +1,11 @@
-package org.paint.primitivas;
+package org.jdbc_paint.primitivas;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.paint.bd.BancoDados;
+import org.jdbc_paint.bd.BancoDados;
 
 public class ControlePrimitivas {
 	private BancoDados bd;
@@ -255,5 +258,147 @@ public class ControlePrimitivas {
 		}
 
 		return false;
+	}
+
+	/******************************************************************************************/
+	/********************************** Getters e Setters *************************************/
+	/******************************************************************************************/
+	/**
+	 * Retorna uma lista de pontos de um determinado desenho.
+	 * 
+	 * @param aIdDesenho
+	 *            Identificador do desenho no Banco de Dados que deseja-se
+	 *            adquirir os pontos
+	 * @return Retorna a lista de pontos do desenho ou null caso não seja
+	 *         encontrado nenhum ponto.
+	 * 
+	 */
+	public List<Ponto> getPontosBD(int aIdDesenho) {
+		String sql = "SELECT * FROM pontos WHERE id_desenho = " + aIdDesenho
+				+ ";";
+
+		if (bd.executarSQL(sql)) {
+			try {
+				ResultSet resultado = bd.getResultSet();
+				List<Ponto> pontosBD = new ArrayList<Ponto>();
+
+				while (resultado.next()) {
+					Ponto novoPonto = new Ponto(resultado.getInt(2),
+							resultado.getInt(3));
+					pontosBD.add(novoPonto);
+				}
+
+				return pontosBD;
+			} catch (SQLException sqlEx) {
+				sqlEx.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Adquire as retas de um respectivo desenho do Banco de Dados.
+	 * 
+	 * @param aIdDesenho
+	 *            Identificar do desenho no Banco de Dados que deseja-se
+	 *            adquirir as retas.
+	 * @return Retorna a lista de retas do respectivo desenho, ou null caso não
+	 *         seja encontrada nenhuma reta.
+	 */
+	public List<Reta> getRetasBD(int aIdDesenho) {
+		String sql = "SELECT * FROM retas WHERE id_desenho = " + aIdDesenho
+				+ ";";
+
+		if (bd.executarSQL(sql)) {
+			try {
+				ResultSet resultado = bd.getResultSet();
+				List<Reta> retasBD = new ArrayList<Reta>();
+
+				while (resultado.next()) {
+					Reta novaReta = new Reta(resultado.getInt(2),
+							resultado.getInt(3), resultado.getInt(4),
+							resultado.getInt(5));
+
+					retasBD.add(novaReta);
+				}
+
+				return retasBD;
+			} catch (SQLException sqlEx) {
+				sqlEx.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Adquire os retângulos de um determinado desenho do Banco de Dados.
+	 * 
+	 * @param aIdDesenho
+	 *            Identificador do desenho no Banco de Dados que deseja-se
+	 *            adquirir os retângulos.
+	 * @return Retorna a lista de retângulos do desenho, ou retorna null caso
+	 *         nenhum retângulo tenha sido encontrado.
+	 */
+	public List<Retangulo> getRetangulosBD(int aIdDesenho) {
+		String sql = "SELECT * FROM retangulos WHERE id_desenho = "
+				+ aIdDesenho + ";";
+
+		if (bd.executarSQL(sql)) {
+			try {
+				ResultSet resultado = bd.getResultSet();
+				List<Retangulo> retangulosBD = new ArrayList<Retangulo>();
+
+				while (resultado.next()) {
+					Retangulo novoRetangulo = new Retangulo(
+							resultado.getInt(2), resultado.getInt(3),
+							resultado.getInt(4), resultado.getInt(5));
+
+					retangulosBD.add(novoRetangulo);
+				}
+
+				return retangulosBD;
+			} catch (SQLException sqlEx) {
+				sqlEx.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Adquire as elipses de um determinado desenho do Banco de Dados.
+	 * 
+	 * @param aIdDesenho
+	 *            Identificador do desenho no Banco de Dados que deseja-se
+	 *            adquirir as elipses.
+	 * @return Retorna a lista de elipses do desenho, ou null caso não tenha
+	 *         sido encontrada nenhuma elipse.
+	 */
+	public List<Elipse> getElipsesBD(int aIdDesenho) {
+		String sql = "SELECT * FROM elipses WHERE id_desenho = " + aIdDesenho
+				+ ";";
+
+		if (bd.executarSQL(sql)) {
+			try {
+				ResultSet resultado = bd.getResultSet();
+				List<Elipse> elipsesBD = new ArrayList<Elipse>();
+
+				while (resultado.next()) {
+					Elipse novaElipse = new Elipse(resultado.getInt(2),
+							resultado.getInt(3), resultado.getInt(4),
+							resultado.getInt(5));
+
+					elipsesBD.add(novaElipse);
+				}
+
+				return elipsesBD;
+			} catch (SQLException sqlEx) {
+				sqlEx.printStackTrace();
+			}
+		}
+
+		return null;
 	}
 }

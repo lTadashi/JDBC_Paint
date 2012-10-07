@@ -1,4 +1,4 @@
-package org.paint.primitivas;
+package org.jdbc_paint.primitivas;
 
 public class Ponto extends Primitiva {
 	

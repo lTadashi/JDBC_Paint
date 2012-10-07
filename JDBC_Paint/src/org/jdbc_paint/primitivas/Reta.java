@@ -1,4 +1,4 @@
-package org.paint.primitivas;
+package org.jdbc_paint.primitivas;
 
 public class Reta extends Primitiva {
 	private int x2, y2;
@@ -9,6 +9,9 @@ public class Reta extends Primitiva {
 		y2 = aY2;
 	}
 
+	/******************************************************************************************/
+	/********************************** Getters e Setters *************************************/
+	/******************************************************************************************/
 	public int getX2() {
 		return x2;
 	}

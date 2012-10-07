@@ -1,4 +1,4 @@
-package org.paint.testes;
+package org.jdbc_paint.testes;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

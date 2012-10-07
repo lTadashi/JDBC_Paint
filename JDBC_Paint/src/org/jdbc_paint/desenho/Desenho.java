@@ -1,14 +1,14 @@
-package org.paint.desenho;
+package org.jdbc_paint.desenho;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.paint.bd.BancoDados;
-import org.paint.primitivas.ControlePrimitivas;
-import org.paint.primitivas.Elipse;
-import org.paint.primitivas.Ponto;
-import org.paint.primitivas.Reta;
-import org.paint.primitivas.Retangulo;
+import org.jdbc_paint.bd.BancoDados;
+import org.jdbc_paint.primitivas.ControlePrimitivas;
+import org.jdbc_paint.primitivas.Elipse;
+import org.jdbc_paint.primitivas.Ponto;
+import org.jdbc_paint.primitivas.Reta;
+import org.jdbc_paint.primitivas.Retangulo;
 
 public class Desenho {
 	private int idDesenho;

@@ -1,4 +1,4 @@
-package org.paint.testes;
+package org.jdbc_paint.testes;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,14 +7,14 @@ import java.sql.SQLException;
 
 import junit.framework.Assert;
 
+import org.jdbc_paint.bd.BancoDados;
+import org.jdbc_paint.desenho.Desenho;
+import org.jdbc_paint.primitivas.Elipse;
+import org.jdbc_paint.primitivas.Ponto;
+import org.jdbc_paint.primitivas.Reta;
+import org.jdbc_paint.primitivas.Retangulo;
 import org.junit.Before;
 import org.junit.Test;
-import org.paint.bd.BancoDados;
-import org.paint.desenho.Desenho;
-import org.paint.primitivas.Elipse;
-import org.paint.primitivas.Ponto;
-import org.paint.primitivas.Reta;
-import org.paint.primitivas.Retangulo;
 
 public class TesteDesenho {
 	private BancoDados bd;

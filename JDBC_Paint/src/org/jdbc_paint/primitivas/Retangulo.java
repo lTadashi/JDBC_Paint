@@ -1,4 +1,4 @@
-package org.paint.primitivas;
+package org.jdbc_paint.primitivas;
 
 public class Retangulo extends Primitiva {
 	private int largura, altura;
@@ -9,6 +9,9 @@ public class Retangulo extends Primitiva {
 		altura = aAltura;
 	}
 
+	/******************************************************************************************/
+	/********************************** Getters e Setters *************************************/
+	/******************************************************************************************/
 	public int getLargura() {
 		return largura;
 	}

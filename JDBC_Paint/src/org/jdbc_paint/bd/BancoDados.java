@@ -1,4 +1,4 @@
-package org.paint.bd;
+package org.jdbc_paint.bd;
 
 
 import java.sql.DriverManager;

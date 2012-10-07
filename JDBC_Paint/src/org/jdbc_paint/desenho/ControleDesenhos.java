@@ -1,11 +1,11 @@
-package org.paint.desenho;
+package org.jdbc_paint.desenho;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import org.paint.bd.BancoDados;
+import org.jdbc_paint.bd.BancoDados;
 
 public class ControleDesenhos {
 	private BancoDados bd;
