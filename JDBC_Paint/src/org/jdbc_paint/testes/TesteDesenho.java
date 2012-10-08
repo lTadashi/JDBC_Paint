@@ -250,7 +250,8 @@ public class TesteDesenho {
 		desenho.removerRetangulo(1);
 		Assert.assertEquals(2, desenho.getRetangulos().size());
 
-		// Verifica se os retângulos restantes na lista de retângulos são os esperados
+		// Verifica se os retângulos restantes na lista de retângulos são os
+		// esperados
 		Assert.assertEquals(0, desenho.getRetangulo(0).getX());
 		Assert.assertEquals(0, desenho.getRetangulo(0).getY());
 		Assert.assertEquals(2147483647, desenho.getRetangulo(0).getLargura());
@@ -261,7 +262,7 @@ public class TesteDesenho {
 		Assert.assertEquals(200, desenho.getRetangulo(1).getLargura());
 		Assert.assertEquals(200, desenho.getRetangulo(1).getAltura());
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adicionar elipses a lista de elipses do desenho.
@@ -302,7 +303,7 @@ public class TesteDesenho {
 		Assert.assertEquals(200, desenho.getElipse(3).getLargura());
 		Assert.assertEquals(200, desenho.getElipse(3).getAltura());
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível remover elipses da lista de elipses do desenho.
@@ -321,7 +322,7 @@ public class TesteDesenho {
 		desenho.adicionarElipse(elipse2);
 		desenho.adicionarElipse(elipse3);
 		desenho.adicionarElipse(elipse4);
-		
+
 		desenho.removerElipse(0);
 		Assert.assertEquals(4, desenho.getElipses().size());
 

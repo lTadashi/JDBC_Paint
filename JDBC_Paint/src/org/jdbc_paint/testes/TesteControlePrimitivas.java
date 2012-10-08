@@ -2,7 +2,6 @@ package org.jdbc_paint.testes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -91,9 +90,9 @@ public class TesteControlePrimitivas {
 				sqlEx.printStackTrace();
 			}
 		}
-		
+
 		Assert.assertEquals(0, quantidadePontos);
-		
+
 		desenho.removerDesenhoEmBranco();
 	}
 	

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -41,7 +42,7 @@ public class TesteControleDesenho {
 		// Adquire o id do último desenho
 		String sql = "SELECT MAX(id) as id " + "FROM desenhos";
 
-		int ultimaId = 0;		
+		int ultimaId = 0;
 		if (bd.executarSQL(sql)) {
 			try {
 				// Adquire o resultado
@@ -57,7 +58,7 @@ public class TesteControleDesenho {
 		}
 
 		Assert.assertEquals(ultimaId, desenho.getIdDesenho());
-		
+
 		// Verifica se o desenho é removido do Banco de Dados
 		assertTrue(controleDesenho.removerDesenhoEmBranco(desenho));
 	}
@@ -75,8 +76,27 @@ public class TesteControleDesenho {
 
 		Assert.assertEquals("Desenho Teste", novoDesenho.getNomeDesenho());
 		Assert.assertEquals(desenho.getIdDesenho(), novoDesenho.getIdDesenho());
-		
+
 		// Remove o novo desenho
-	    controleDesenho.removerDesenhoEmBranco(novoDesenho);
+		controleDesenho.removerDesenhoEmBranco(novoDesenho);
+	}
+	
+	@Test
+	/**
+	 * Testa se é possível adquirir todos os desenhos do Banco de Dados.
+	 */
+	public void testeAdquirirTodosDesenhos() {
+		// Salva o desenho e adquire o número da id
+		desenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(desenho));
+		
+		Desenho novoDesenho = new Desenho("Desenho Teste2", bd);
+		novoDesenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(novoDesenho));
+		
+		List<Desenho> desenhos = controleDesenho.getDesenhosBD();
+		
+		Assert.assertEquals(2, desenhos.size());
+		
+		controleDesenho.removerDesenhoEmBranco(desenho);
+		controleDesenho.removerDesenhoEmBranco(novoDesenho);
 	}
 }
