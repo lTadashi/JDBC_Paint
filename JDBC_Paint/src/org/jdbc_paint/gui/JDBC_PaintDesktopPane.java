@@ -40,4 +40,16 @@ public class JDBC_PaintDesktopPane extends JDesktopPane {
 	
 		return frame.getDesenho();
 	}
+	
+	public boolean isEdicaoDesenhoExistente() {
+		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
+		
+		return frame.isEdicaoDesenhoExistente();
+	}
+	
+	public Desenho getNovoDesenho() {
+		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
+		
+		return frame.getNovoDesenho();
+	}
 }

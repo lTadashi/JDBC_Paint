@@ -271,6 +271,20 @@ public class Desenho {
 
 		return false;
 	}
+	
+	public boolean salvarTodasPrimitivas() {
+		if(salvarTodosPontos()) {
+			if(salvarTodasRetas()) {
+				if(salvarTodosRetangulos()) {
+					if(salvarTodasElipses()) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
 
 	/******************************************************************************************/
 	/********************************** Getters e Setters *************************************/

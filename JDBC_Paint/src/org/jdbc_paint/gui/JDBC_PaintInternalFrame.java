@@ -30,4 +30,12 @@ public class JDBC_PaintInternalFrame extends JInternalFrame {
 	public void setDesenho(Desenho aDesenho) {
 		canvas.setDesenho(aDesenho);
 	}
+	
+	public boolean isEdicaoDesenhoExistente() {
+		return canvas.isEdicaoDesenhoExistente();
+	}
+	
+	public Desenho getNovoDesenho() {
+		return canvas.getNovoDesenho();
+	}
 }

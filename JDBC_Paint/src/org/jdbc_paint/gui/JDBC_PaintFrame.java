@@ -69,14 +69,26 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand() == "salvar") {
-			if (!desktopPane.getDesenho().salvarDesenho()) {
-				JOptionPane.showMessageDialog(this,
-						"Erro ao salvar desenho no Banco de Dados", "Erro",
-						JOptionPane.WARNING_MESSAGE);
+			if(desktopPane.isEdicaoDesenhoExistente()) {
+				if (!desktopPane.getNovoDesenho().salvarTodasPrimitivas()) {
+					JOptionPane.showMessageDialog(this,
+							"Erro ao salvar desenho no Banco de Dados", "Erro",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Desenho salvo com sucesso!", "Desenho salvo",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			} else {
-				JOptionPane.showMessageDialog(this,
-						"Desenho salvo com sucesso!", "Desenho salvo",
-						JOptionPane.INFORMATION_MESSAGE);
+				if (!desktopPane.getDesenho().salvarDesenho()) {
+					JOptionPane.showMessageDialog(this,
+							"Erro ao salvar desenho no Banco de Dados", "Erro",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Desenho salvo com sucesso!", "Desenho salvo",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		} else if (e.getActionCommand() == "remover") {
 			String[] opcoes = { "Remover", "Fechar" };

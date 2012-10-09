@@ -22,6 +22,8 @@ import org.jdbc_paint.primitivas.Retangulo;
 public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private Desenho desenho;
+	private Desenho novoDesenho;
+	private BancoDados bancoDados;
 	private BufferedImage frameDesenho;
 	private Graphics grafico;
 	private int[] ferramentas;
@@ -48,6 +50,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 		addMouseListener(this);
 		setVisible(true);
 
+		bancoDados = aBancoDados;
 		ferramentas = aFerramentas;
 
 		desenho = new Desenho(aNomeDesenho, aBancoDados);
@@ -59,7 +62,11 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public void mouseDragged(MouseEvent e) {
 		if (ferramentas[0] == 1) {
 			// Lápis
-			desenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
+			if(isEdicaoDesenhoExistente()) {
+				novoDesenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
+			} else {
+				desenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
+			}
 		} else if (ferramentas[1] == 1) {
 			// Reta
 			tempReta.setX2(e.getX());
@@ -144,6 +151,28 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			grafico.drawOval(elipse.getX(), elipse.getY(), elipse.getLargura(),
 					elipse.getAltura());
 		}
+		
+		if(isEdicaoDesenhoExistente()) {
+			for (Ponto ponto : novoDesenho.getPontos()) {
+				grafico.drawLine(ponto.getX(), ponto.getY(), ponto.getX(),
+						ponto.getY());
+			}
+
+			for (Reta reta : novoDesenho.getRetas()) {
+				grafico.drawLine(reta.getX(), reta.getY(), reta.getX2(),
+						reta.getY2());
+			}
+
+			for (Retangulo retangulo : novoDesenho.getRetangulos()) {
+				grafico.drawRect(retangulo.getX(), retangulo.getY(),
+						retangulo.getLargura(), retangulo.getAltura());
+			}
+
+			for (Elipse elipse : novoDesenho.getElipses()) {
+				grafico.drawOval(elipse.getX(), elipse.getY(), elipse.getLargura(),
+						elipse.getAltura());
+			}
+		}
 
 		if (ferramentas[1] == 1 && tempReta != null) {
 			grafico.drawLine(tempReta.getX(), tempReta.getY(),
@@ -175,7 +204,14 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (ferramentas[1] == 1) {
+		if (ferramentas[0] == 1) {
+			// Lápis
+			if(isEdicaoDesenhoExistente()) {
+				novoDesenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
+			} else {
+				desenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
+			}
+		} else if (ferramentas[1] == 1) {
 			// Reta
 			tempReta = new Reta(e.getX(), e.getY(), e.getX(), e.getY());
 		} else if (ferramentas[2] == 1) {
@@ -195,16 +231,31 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		if (ferramentas[1] == 1) {
 			// Reta
-			desenho.adicionarReta(tempReta);
-			tempReta = null;
+			if(isEdicaoDesenhoExistente()) {
+				novoDesenho.adicionarReta(tempReta);
+				tempReta = null;
+			} else {
+				desenho.adicionarReta(tempReta);
+				tempReta = null;
+			}
 		} else if (ferramentas[2] == 1) {
 			// Retângular
-			desenho.adicionarRetangulo(tempRetangulo);
-			tempRetangulo = null;
+			if(isEdicaoDesenhoExistente()) {
+				novoDesenho.adicionarRetangulo(tempRetangulo);
+				tempRetangulo = null;
+			} else {
+				desenho.adicionarRetangulo(tempRetangulo);
+				tempRetangulo = null;
+			}
 		} else if (ferramentas[3] == 1) {
 			// Elipse
-			desenho.adicionarElipse(tempElipse);
-			tempElipse = null;
+			if(isEdicaoDesenhoExistente()) {
+				novoDesenho.adicionarElipse(tempElipse);
+				tempElipse = null;
+			} else {
+				desenho.adicionarElipse(tempElipse);
+				tempElipse = null;
+			}
 		}
 	}
 
@@ -227,7 +278,18 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	
 	public void setDesenho(Desenho aDesenho) {
 		desenho = aDesenho;
+		novoDesenho = new Desenho(desenho.getNomeDesenho(), bancoDados);
+		novoDesenho.setIdDesenho(desenho.getIdDesenho());
+		edicaoDesenhoExistente = true;
 		
 		desenharFrame();
+	}
+
+	public boolean isEdicaoDesenhoExistente() {
+		return edicaoDesenhoExistente;
+	}
+
+	public Desenho getNovoDesenho() {
+		return novoDesenho;
 	}
 }
