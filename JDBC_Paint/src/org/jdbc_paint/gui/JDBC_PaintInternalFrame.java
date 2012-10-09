@@ -38,4 +38,8 @@ public class JDBC_PaintInternalFrame extends JInternalFrame {
 	public Desenho getNovoDesenho() {
 		return canvas.getNovoDesenho();
 	}
+	
+	public void setEdicaoDesenhoExistente(boolean aEdicao) {
+		canvas.setEdicaoDesenhoExistente(aEdicao);
+	}
 }

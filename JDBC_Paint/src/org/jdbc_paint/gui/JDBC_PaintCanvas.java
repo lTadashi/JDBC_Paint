@@ -278,9 +278,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	
 	public void setDesenho(Desenho aDesenho) {
 		desenho = aDesenho;
-		novoDesenho = new Desenho(desenho.getNomeDesenho(), bancoDados);
-		novoDesenho.setIdDesenho(desenho.getIdDesenho());
-		edicaoDesenhoExistente = true;
+		setEdicaoDesenhoExistente(true);
 		
 		desenharFrame();
 	}
@@ -291,5 +289,16 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	public Desenho getNovoDesenho() {
 		return novoDesenho;
+	}
+	
+	public void setEdicaoDesenhoExistente(boolean aEdicao) {
+		if(aEdicao) {
+			novoDesenho = new Desenho(desenho.getNomeDesenho(), bancoDados);
+			novoDesenho.setIdDesenho(desenho.getIdDesenho());
+		} else {
+			novoDesenho = null;
+		}
+		
+		edicaoDesenhoExistente = aEdicao;
 	}
 }
