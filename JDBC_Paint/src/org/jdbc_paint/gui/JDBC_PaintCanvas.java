@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,7 +22,7 @@ import org.jdbc_paint.primitivas.Retangulo;
 public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private Desenho desenho;
-	private Image frameDesenho;
+	private BufferedImage frameDesenho;
 	private Graphics grafico;
 	private int[] ferramentas;
 
@@ -30,17 +31,28 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	private Retangulo tempRetangulo;
 	private Elipse tempElipse;
 
+	// Coordenadas temporárias para a criação das primitivas temporárias
+	private int xTemp, yTemp;
+	
+	// Variável de estado de edição de desenho já existente
+	private boolean edicaoDesenhoExistente;
+
 	public JDBC_PaintCanvas(String aNomeDesenho, Dimension aDimensao,
 			BancoDados aBancoDados, int[] aFerramentas) {
 		super();
+		setSize(new Dimension(aDimensao.width / 2, aDimensao.height / 2));
 		setPreferredSize(new Dimension(aDimensao.width / 2,
 				aDimensao.height / 2));
+		setBackground(Color.WHITE);
 		addMouseMotionListener(this);
 		addMouseListener(this);
+		setVisible(true);
 
 		ferramentas = aFerramentas;
 
 		desenho = new Desenho(aNomeDesenho, aBancoDados);
+		
+		desenharFrame();
 	}
 
 	@Override
@@ -54,11 +66,39 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			tempReta.setY2(e.getY());
 		} else if (ferramentas[2] == 1) {
 			// Retângular
-			tempRetangulo.setLargura(Math.abs(e.getX() - tempRetangulo.getX()));
-			tempRetangulo.setAltura(Math.abs(e.getY() - tempRetangulo.getY()));
+			if (e.getY() < yTemp) {
+				tempRetangulo.setY(e.getY());
+				tempRetangulo.setAltura(Math.abs(yTemp - tempRetangulo.getY()));
+			} else {
+				tempRetangulo.setAltura(Math.abs(e.getY()
+						- tempRetangulo.getY()));
+			}
+
+			if (e.getX() < xTemp) {
+				tempRetangulo.setX(e.getX());
+				tempRetangulo
+						.setLargura(Math.abs(xTemp - tempRetangulo.getX()));
+			} else {
+				tempRetangulo.setLargura(Math.abs(e.getX()
+						- tempRetangulo.getX()));
+			}
+		} else if (ferramentas[3] == 1) {
+			// Elipse
+			if (e.getY() < yTemp) {
+				tempElipse.setY(e.getY());
+				tempElipse.setAltura(Math.abs(yTemp - tempElipse.getY()));
+			} else {
+				tempElipse.setAltura(Math.abs(e.getY() - tempElipse.getY()));
+			}
+
+			if (e.getX() < xTemp) {
+				tempElipse.setX(e.getX());
+				tempElipse.setLargura(Math.abs(xTemp - tempElipse.getX()));
+			} else {
+				tempElipse.setLargura(Math.abs(e.getX() - tempElipse.getX()));
+			}
 		}
-		// TODO Criar evento para elipse
-		
+
 		desenharFrame();
 	}
 
@@ -70,7 +110,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	private void desenharFrame() {
 		if (frameDesenho == null) {
 			// cria o frame
-			frameDesenho = createImage(getWidth(), getHeight());
+			frameDesenho = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 
 			if (frameDesenho == null) {
 				JOptionPane.showMessageDialog(this, "Erro ao criar frames",
@@ -105,12 +145,15 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 					elipse.getAltura());
 		}
 
-		if (ferramentas[1] == 1) {
+		if (ferramentas[1] == 1 && tempReta != null) {
 			grafico.drawLine(tempReta.getX(), tempReta.getY(),
 					tempReta.getX2(), tempReta.getY2());
-		} else if (ferramentas[2] == 1) {
+		} else if (ferramentas[2] == 1 && tempRetangulo != null) {
 			grafico.drawRect(tempRetangulo.getX(), tempRetangulo.getY(),
 					tempRetangulo.getLargura(), tempRetangulo.getAltura());
+		} else if (ferramentas[3] == 1 && tempElipse != null) {
+			grafico.drawOval(tempElipse.getX(), tempElipse.getY(),
+					tempElipse.getLargura(), tempElipse.getAltura());
 		}
 
 		// redesenha a tela
@@ -138,8 +181,14 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 		} else if (ferramentas[2] == 1) {
 			// Retângular
 			tempRetangulo = new Retangulo(e.getX(), e.getY(), 0, 0);
+			xTemp = e.getX();
+			yTemp = e.getY();
+		} else if (ferramentas[3] == 1) {
+			// Elipse
+			tempElipse = new Elipse(e.getX(), e.getY(), 0, 0);
+			xTemp = e.getX();
+			yTemp = e.getY();
 		}
-		// TODO Criar evento para elipse
 	}
 
 	@Override
@@ -148,12 +197,15 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			// Reta
 			desenho.adicionarReta(tempReta);
 			tempReta = null;
-		} else if(ferramentas[2] == 1) {
+		} else if (ferramentas[2] == 1) {
 			// Retângular
 			desenho.adicionarRetangulo(tempRetangulo);
 			tempRetangulo = null;
+		} else if (ferramentas[3] == 1) {
+			// Elipse
+			desenho.adicionarElipse(tempElipse);
+			tempElipse = null;
 		}
-		// TODO Criar evento para elipse
 	}
 
 	@Override
@@ -164,5 +216,18 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+
+	/******************************************************************************************/
+	/********************************** Getters e Setters *************************************/
+	/******************************************************************************************/
+	public Desenho getDesenho() {
+		return desenho;
+	}
+	
+	public void setDesenho(Desenho aDesenho) {
+		desenho = aDesenho;
+		
+		desenharFrame();
 	}
 }

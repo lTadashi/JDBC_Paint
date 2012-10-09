@@ -7,17 +7,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.jdbc_paint.bd.BancoDados;
+import org.jdbc_paint.desenho.Desenho;
 
 public class JDBC_PaintFrame extends JFrame implements ActionListener {
 	private JDBC_PaintDesktopPane desktopPane;
 	private JDBC_PaintMenuBar menuBar;
 	private int[] ferramentas;
+	private BancoDados bancoDados;
 
 	public JDBC_PaintFrame(String aNomeJanela, int aLargura, int aAltura,
 			BancoDados aBancoDados) {
 		super(aNomeJanela);
 		setSize(aLargura, aAltura);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		bancoDados = aBancoDados;
 
 		criarMenu();
 
@@ -34,6 +37,7 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 		menuBar.getMenuItemNovo().addActionListener(this);
 		menuBar.getMenuItemAbrir().addActionListener(this);
 		menuBar.getMenuItemSalvar().addActionListener(this);
+		menuBar.getMenuItemRemover().addActionListener(this);
 
 		menuBar.getRadioItemLapis().addActionListener(this);
 		menuBar.getRadioItemReta().addActionListener(this);
@@ -51,9 +55,54 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 
 			desktopPane.novoDesenho(nomeDesenho, ferramentas);
 		} else if (e.getActionCommand() == "abrir") {
-			// TODO Abrir desenho
+			String[] opcoes = { "Abrir", "Fechar" };
+			JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(
+					bancoDados);
+
+			if (JDBC_PaintAbrirPanel.quantidadeDesenhos(bancoDados) > 0) {
+				if (JOptionPane.showOptionDialog(this, abrirPanel, "Abrir...",
+						JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+						opcoes, 1) == 0) {
+					Desenho novoDesenho = new Desenho(abrirPanel
+							.getDesenhoSelecionado().getIdDesenho(), bancoDados);
+					desktopPane.novoDesenho(novoDesenho, ferramentas);
+				}
+			}
 		} else if (e.getActionCommand() == "salvar") {
-			// TODO salvar desenho
+			if (!desktopPane.getDesenho().salvarDesenho()) {
+				JOptionPane.showMessageDialog(this,
+						"Erro ao salvar desenho no Banco de Dados", "Erro",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(this,
+						"Desenho salvo com sucesso!", "Desenho salvo",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (e.getActionCommand() == "remover") {
+			String[] opcoes = { "Remover", "Fechar" };
+			JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(
+					bancoDados);
+
+			if (JDBC_PaintAbrirPanel.quantidadeDesenhos(bancoDados) > 0) {
+				if (JOptionPane.showOptionDialog(this, abrirPanel, "Remover",
+						JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+						opcoes, 1) == 0) {
+					Desenho novoDesenho = new Desenho(abrirPanel
+							.getDesenhoSelecionado().getIdDesenho(), bancoDados);
+
+					if (novoDesenho.removerDesenho()) {
+						JOptionPane.showMessageDialog(this,
+								"Desenho removido com sucesso!",
+								"Desenho removido",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(this,
+								"Erro ao remover o desenho!",
+								"Erro",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
 		} else if (e.getActionCommand() == "lapis") {
 			setFerramentaLapis();
 		} else if (e.getActionCommand() == "reta") {

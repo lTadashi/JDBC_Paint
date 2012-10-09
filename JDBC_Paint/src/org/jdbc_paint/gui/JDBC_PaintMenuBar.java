@@ -11,7 +11,7 @@ public class JDBC_PaintMenuBar extends JMenuBar {
 	private JMenu menuArquivo, menuFerramentas;
 
 	// Itens da aba Arquivo
-	private JMenuItem menuItemNovo, menuItemAbrir, menuItemSalvar;
+	private JMenuItem menuItemNovo, menuItemAbrir, menuItemSalvar, menuItemRemover;
 	// Itens da aba Ferramentas
 	private ButtonGroup grupoRadioFerramentas;
 	private JRadioButtonMenuItem radioItemLapis, radioItemReta, radioItemRetangulo, radioItemElipse;
@@ -37,10 +37,13 @@ public class JDBC_PaintMenuBar extends JMenuBar {
 		menuItemAbrir.setActionCommand("abrir");
 		menuItemSalvar = new JMenuItem("Salvar", new ImageIcon("icones/salvar.png"));
 		menuItemSalvar.setActionCommand("salvar");
+		menuItemRemover = new JMenuItem("Remover", new ImageIcon("icones/remover.png"));
+		menuItemRemover.setActionCommand("remover");
 		
 		menuArquivo.add(menuItemNovo);
 		menuArquivo.add(menuItemAbrir);
 		menuArquivo.add(menuItemSalvar);
+		menuArquivo.add(menuItemRemover);
 	}
 	
 	private void criarAbaFerramentas() {
@@ -82,6 +85,10 @@ public class JDBC_PaintMenuBar extends JMenuBar {
 
 	public JMenuItem getMenuItemSalvar() {
 		return menuItemSalvar;
+	}
+
+	public JMenuItem getMenuItemRemover() {
+		return menuItemRemover;
 	}
 
 	public JRadioButtonMenuItem getRadioItemLapis() {

@@ -136,7 +136,7 @@ public class ControleDesenhos {
 				List<Desenho> desenhosBD = new ArrayList<Desenho>();
 
 				while (resultado.next()) {
-					Desenho novoDesenho = new Desenho(resultado.getString(1),
+					Desenho novoDesenho = new Desenho(resultado.getString(2),
 							bd);
 					novoDesenho.setIdDesenho(resultado.getInt(1));
 

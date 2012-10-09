@@ -47,6 +47,21 @@ public class Desenho {
 		elipses = new ArrayList<Elipse>();
 	}
 
+	public Desenho(int aIdDesenho, BancoDados aBancoDados) {
+		// Inicializa os controles
+		controleDesenho = new ControleDesenhos(aBancoDados);
+		controlePrimitivas = new ControlePrimitivas(aBancoDados);
+		
+		Desenho tempDesenho = controleDesenho.getDesenho(aIdDesenho);
+		nomeDesenho = tempDesenho.getNomeDesenho();
+		idDesenho = aIdDesenho;
+		
+		pontos = controlePrimitivas.getPontosBD(aIdDesenho);
+		retas = controlePrimitivas.getRetasBD(aIdDesenho);
+		retangulos = controlePrimitivas.getRetangulosBD(aIdDesenho);
+		elipses = controlePrimitivas.getElipsesBD(aIdDesenho);
+	}
+
 	/**
 	 * Salva o desenho em branco no Banco de Dados. Isto é, salva as informações
 	 * do desenho, mas não o que está desenhado nele.
@@ -75,6 +90,38 @@ public class Desenho {
 	 */
 	public boolean removerDesenhoEmBranco() {
 		return controleDesenho.removerDesenhoEmBranco(this);
+	}
+
+	public boolean salvarDesenho() {
+		if (salvarDesenhoEmBranco()) {
+			if (salvarTodosPontos()) {
+				if (salvarTodasRetas()) {
+					if (salvarTodosRetangulos()) {
+						if (salvarTodasElipses()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean removerDesenho() {
+		if (removerTodasElipses()) {
+			if (removerTodosRetangulos()) {
+				if (removerTodasRetas()) {
+					if (removerTodosPontos()) {
+						if (removerDesenhoEmBranco()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -180,6 +227,45 @@ public class Desenho {
 	private boolean removerTodosPontos() {
 		if (controlePrimitivas.removerPontos(idDesenho, pontos)) {
 			pontos.clear();
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean salvarTodasRetas() {
+		return controlePrimitivas.salvarRetas(idDesenho, retas);
+	}
+
+	private boolean removerTodasRetas() {
+		if (controlePrimitivas.removerRetas(idDesenho, retas)) {
+			retas.clear();
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean salvarTodosRetangulos() {
+		return controlePrimitivas.salvarRetangulos(idDesenho, retangulos);
+	}
+
+	private boolean removerTodosRetangulos() {
+		if (controlePrimitivas.removerRetangulos(idDesenho, retangulos)) {
+			retangulos.clear();
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean salvarTodasElipses() {
+		return controlePrimitivas.salvarElipses(idDesenho, elipses);
+	}
+
+	private boolean removerTodasElipses() {
+		if (controlePrimitivas.removerElipses(idDesenho, elipses)) {
+			elipses.clear();
 			return true;
 		}
 
