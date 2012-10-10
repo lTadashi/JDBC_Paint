@@ -22,23 +22,23 @@ public class JDBC_PaintInternalFrame extends JInternalFrame {
 		validate();
 		pack();
 	}
-	
+
 	public Desenho getDesenho() {
 		return canvas.getDesenho();
 	}
-	
+
 	public void setDesenho(Desenho aDesenho) {
 		canvas.setDesenho(aDesenho);
 	}
-	
+
 	public boolean isEdicaoDesenhoExistente() {
 		return canvas.isEdicaoDesenhoExistente();
 	}
-	
+
 	public Desenho getNovoDesenho() {
 		return canvas.getNovoDesenho();
 	}
-	
+
 	public void setEdicaoDesenhoExistente(boolean aEdicao) {
 		canvas.setEdicaoDesenhoExistente(aEdicao);
 	}

@@ -36,7 +36,7 @@ public class JDBC_PaintAbrirPanel extends JPanel {
 		add(tabelaScroll);
 
 		validate();
-		
+
 		controleDesenhos = new ControleDesenhos(aBancoDados);
 		adquireTodosDesenhos();
 	}

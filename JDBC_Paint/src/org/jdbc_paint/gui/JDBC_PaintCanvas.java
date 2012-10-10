@@ -35,7 +35,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	// Coordenadas temporárias para a criação das primitivas temporárias
 	private int xTemp, yTemp;
-	
+
 	// Variável de estado de edição de desenho já existente
 	private boolean edicaoDesenhoExistente;
 
@@ -54,7 +54,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 		ferramentas = aFerramentas;
 
 		desenho = new Desenho(aNomeDesenho, aBancoDados);
-		
+
 		desenharFrame();
 	}
 
@@ -62,7 +62,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public void mouseDragged(MouseEvent e) {
 		if (ferramentas[0] == 1) {
 			// Lápis
-			if(isEdicaoDesenhoExistente()) {
+			if (isEdicaoDesenhoExistente()) {
 				novoDesenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
 			} else {
 				desenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
@@ -111,13 +111,14 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
+		// Faz nada
 	}
 
 	private void desenharFrame() {
 		if (frameDesenho == null) {
 			// cria o frame
-			frameDesenho = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+			frameDesenho = new BufferedImage(getWidth(), getHeight(),
+					BufferedImage.TYPE_INT_ARGB);
 
 			if (frameDesenho == null) {
 				JOptionPane.showMessageDialog(this, "Erro ao criar frames",
@@ -151,8 +152,8 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			grafico.drawOval(elipse.getX(), elipse.getY(), elipse.getLargura(),
 					elipse.getAltura());
 		}
-		
-		if(isEdicaoDesenhoExistente()) {
+
+		if (isEdicaoDesenhoExistente()) {
 			for (Ponto ponto : novoDesenho.getPontos()) {
 				grafico.drawLine(ponto.getX(), ponto.getY(), ponto.getX(),
 						ponto.getY());
@@ -169,8 +170,8 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			}
 
 			for (Elipse elipse : novoDesenho.getElipses()) {
-				grafico.drawOval(elipse.getX(), elipse.getY(), elipse.getLargura(),
-						elipse.getAltura());
+				grafico.drawOval(elipse.getX(), elipse.getY(),
+						elipse.getLargura(), elipse.getAltura());
 			}
 		}
 
@@ -199,14 +200,14 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		// Faz nada
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (ferramentas[0] == 1) {
 			// Lápis
-			if(isEdicaoDesenhoExistente()) {
+			if (isEdicaoDesenhoExistente()) {
 				novoDesenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
 			} else {
 				desenho.adicionarPonto(new Ponto(e.getX(), e.getY()));
@@ -231,7 +232,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		if (ferramentas[1] == 1) {
 			// Reta
-			if(isEdicaoDesenhoExistente()) {
+			if (isEdicaoDesenhoExistente()) {
 				novoDesenho.adicionarReta(tempReta);
 				tempReta = null;
 			} else {
@@ -240,7 +241,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			}
 		} else if (ferramentas[2] == 1) {
 			// Retângular
-			if(isEdicaoDesenhoExistente()) {
+			if (isEdicaoDesenhoExistente()) {
 				novoDesenho.adicionarRetangulo(tempRetangulo);
 				tempRetangulo = null;
 			} else {
@@ -249,7 +250,7 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 			}
 		} else if (ferramentas[3] == 1) {
 			// Elipse
-			if(isEdicaoDesenhoExistente()) {
+			if (isEdicaoDesenhoExistente()) {
 				novoDesenho.adicionarElipse(tempElipse);
 				tempElipse = null;
 			} else {
@@ -261,12 +262,12 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
+		// Faz nada
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
+		// Faz nada
 	}
 
 	/******************************************************************************************/
@@ -275,11 +276,11 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public Desenho getDesenho() {
 		return desenho;
 	}
-	
+
 	public void setDesenho(Desenho aDesenho) {
 		desenho = aDesenho;
 		setEdicaoDesenhoExistente(true);
-		
+
 		desenharFrame();
 	}
 
@@ -290,15 +291,15 @@ public class JDBC_PaintCanvas extends JPanel implements MouseListener,
 	public Desenho getNovoDesenho() {
 		return novoDesenho;
 	}
-	
+
 	public void setEdicaoDesenhoExistente(boolean aEdicao) {
-		if(aEdicao) {
+		if (aEdicao) {
 			novoDesenho = new Desenho(desenho.getNomeDesenho(), bancoDados);
 			novoDesenho.setIdDesenho(desenho.getIdDesenho());
 		} else {
 			novoDesenho = null;
 		}
-		
+
 		edicaoDesenhoExistente = aEdicao;
 	}
 }

@@ -111,18 +111,17 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 		// Ferramenta elipse
 		ferramentas[3] = 1;
 	}
-	
+
 	private void novoDesenho() {
 		String nomeDesenho = JOptionPane
 				.showInputDialog("Entre com o nome do novo desenho");
 
 		desktopPane.novoDesenho(nomeDesenho, ferramentas);
 	}
-	
+
 	private void abrirDesenho() {
 		String[] opcoes = { "Abrir", "Fechar" };
-		JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(
-				bancoDados);
+		JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(bancoDados);
 
 		if (JDBC_PaintAbrirPanel.quantidadeDesenhos(bancoDados) > 0) {
 			if (JOptionPane.showOptionDialog(this, abrirPanel, "Abrir...",
@@ -134,9 +133,9 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	private void salvarDesenho() {
-		if(desktopPane.isEdicaoDesenhoExistente()) {
+		if (desktopPane.isEdicaoDesenhoExistente()) {
 			if (!desktopPane.getNovoDesenho().salvarTodasPrimitivas()) {
 				JOptionPane.showMessageDialog(this,
 						"Erro ao salvar desenho no Banco de Dados", "Erro",
@@ -145,7 +144,7 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this,
 						"Desenho salvo com sucesso!", "Desenho salvo",
 						JOptionPane.INFORMATION_MESSAGE);
-				
+
 				// Define o desenho como edição de desenho já salvo
 				desktopPane.setEdicaoDesenhoExistente(true);
 			}
@@ -158,17 +157,16 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this,
 						"Desenho salvo com sucesso!", "Desenho salvo",
 						JOptionPane.INFORMATION_MESSAGE);
-				
+
 				// Define o desenho como edição de desenho já salvo
 				desktopPane.setEdicaoDesenhoExistente(true);
 			}
 		}
 	}
-	
+
 	private void removerDesenho() {
 		String[] opcoes = { "Remover", "Fechar" };
-		JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(
-				bancoDados);
+		JDBC_PaintAbrirPanel abrirPanel = new JDBC_PaintAbrirPanel(bancoDados);
 
 		if (JDBC_PaintAbrirPanel.quantidadeDesenhos(bancoDados) > 0) {
 			if (JOptionPane.showOptionDialog(this, abrirPanel, "Remover",
@@ -178,14 +176,14 @@ public class JDBC_PaintFrame extends JFrame implements ActionListener {
 						.getDesenhoSelecionado().getIdDesenho(), bancoDados);
 
 				if (novoDesenho.removerDesenho()) {
-					JOptionPane.showMessageDialog(this,
-							"Desenho removido com sucesso!",
-							"Desenho removido",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane
+							.showMessageDialog(this,
+									"Desenho removido com sucesso!",
+									"Desenho removido",
+									JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(this,
-							"Erro ao remover o desenho!",
-							"Erro",
+							"Erro ao remover o desenho!", "Erro",
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}

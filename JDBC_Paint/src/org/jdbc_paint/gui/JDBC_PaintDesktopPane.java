@@ -14,7 +14,7 @@ public class JDBC_PaintDesktopPane extends JDesktopPane {
 		super();
 		setSize(aDimensao);
 		setVisible(true);
-		
+
 		bd = aBancoDados;
 	}
 
@@ -30,32 +30,32 @@ public class JDBC_PaintDesktopPane extends JDesktopPane {
 		JDBC_PaintInternalFrame novoDesenho = new JDBC_PaintInternalFrame(
 				desenho.getNomeDesenho(), getSize(), bd, aFerramentas);
 		novoDesenho.setDesenho(desenho);
-		
+
 		add(novoDesenho);
 		validate();
 	}
 
 	public Desenho getDesenho() {
 		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
-	
+
 		return frame.getDesenho();
 	}
-	
+
 	public boolean isEdicaoDesenhoExistente() {
 		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
-		
+
 		return frame.isEdicaoDesenhoExistente();
 	}
-	
+
 	public Desenho getNovoDesenho() {
 		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
-		
+
 		return frame.getNovoDesenho();
 	}
-	
+
 	public void setEdicaoDesenhoExistente(boolean aEdicao) {
 		JDBC_PaintInternalFrame frame = (JDBC_PaintInternalFrame) getSelectedFrame();
-		
+
 		frame.setEdicaoDesenhoExistente(aEdicao);
 	}
 }

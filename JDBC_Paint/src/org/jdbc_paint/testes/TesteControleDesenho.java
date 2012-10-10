@@ -80,7 +80,7 @@ public class TesteControleDesenho {
 		// Remove o novo desenho
 		controleDesenho.removerDesenhoEmBranco(novoDesenho);
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adquirir todos os desenhos do Banco de Dados.
@@ -88,14 +88,15 @@ public class TesteControleDesenho {
 	public void testeAdquirirTodosDesenhos() {
 		// Salva o desenho e adquire o número da id
 		desenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(desenho));
-		
+
 		Desenho novoDesenho = new Desenho("Desenho Teste2", bd);
-		novoDesenho.setIdDesenho(controleDesenho.salvarDesenhoEmBranco(novoDesenho));
-		
+		novoDesenho.setIdDesenho(controleDesenho
+				.salvarDesenhoEmBranco(novoDesenho));
+
 		List<Desenho> desenhos = controleDesenho.getDesenhosBD();
-		
+
 		Assert.assertEquals(2, desenhos.size());
-		
+
 		controleDesenho.removerDesenhoEmBranco(desenho);
 		controleDesenho.removerDesenhoEmBranco(novoDesenho);
 	}

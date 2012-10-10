@@ -95,7 +95,7 @@ public class TesteControlePrimitivas {
 
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adquirir os pontos de um determinado desenho do Banco de Dados.
@@ -112,15 +112,18 @@ public class TesteControlePrimitivas {
 		desenho.adicionarPonto(p1);
 		desenho.adicionarPonto(p2);
 		desenho.adicionarPonto(p3);
-		
+
 		desenho.salvarDesenhoEmBranco();
-		controlePrimitivas.salvarPontos(desenho.getIdDesenho(), desenho.getPontos());
-		
-		List<Ponto> pontos = controlePrimitivas.getPontosBD(desenho.getIdDesenho());
-		
+		controlePrimitivas.salvarPontos(desenho.getIdDesenho(),
+				desenho.getPontos());
+
+		List<Ponto> pontos = controlePrimitivas.getPontosBD(desenho
+				.getIdDesenho());
+
 		Assert.assertEquals(4, pontos.size());
-		
-		controlePrimitivas.removerPontos(desenho.getIdDesenho(), desenho.getPontos());
+
+		controlePrimitivas.removerPontos(desenho.getIdDesenho(),
+				desenho.getPontos());
 		desenho.removerDesenhoEmBranco();
 	}
 
@@ -189,12 +192,12 @@ public class TesteControlePrimitivas {
 				sqlEx.printStackTrace();
 			}
 		}
-		
+
 		Assert.assertEquals(0, quantidadeRetas);
-		
+
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adquirir as retas de um determinado desenho do Banco de Dados.
@@ -213,18 +216,21 @@ public class TesteControlePrimitivas {
 		desenho.adicionarReta(reta2);
 		desenho.adicionarReta(reta3);
 		desenho.adicionarReta(reta4);
-		
+
 		desenho.salvarDesenhoEmBranco();
-		controlePrimitivas.salvarRetas(desenho.getIdDesenho(), desenho.getRetas());
-		
-		List<Reta> retas = controlePrimitivas.getRetasBD(desenho.getIdDesenho());
-		
+		controlePrimitivas.salvarRetas(desenho.getIdDesenho(),
+				desenho.getRetas());
+
+		List<Reta> retas = controlePrimitivas
+				.getRetasBD(desenho.getIdDesenho());
+
 		Assert.assertEquals(5, retas.size());
-		
-		controlePrimitivas.removerRetas(desenho.getIdDesenho(), desenho.getRetas());
+
+		controlePrimitivas.removerRetas(desenho.getIdDesenho(),
+				desenho.getRetas());
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível salvar e remover retângulos do Banco de Dados.
@@ -290,12 +296,12 @@ public class TesteControlePrimitivas {
 				sqlEx.printStackTrace();
 			}
 		}
-		
+
 		Assert.assertEquals(0, quantidadeRetangulos);
-		
+
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adquirir os retângulos de um determinado desenho do Banco de Dados.
@@ -314,18 +320,21 @@ public class TesteControlePrimitivas {
 		desenho.adicionarRetangulo(retangulo2);
 		desenho.adicionarRetangulo(retangulo3);
 		desenho.adicionarRetangulo(retangulo4);
-		
+
 		desenho.salvarDesenhoEmBranco();
-		controlePrimitivas.salvarRetangulos(desenho.getIdDesenho(), desenho.getRetangulos());
-		
-		List<Retangulo> retangulos = controlePrimitivas.getRetangulosBD(desenho.getIdDesenho());
-		
+		controlePrimitivas.salvarRetangulos(desenho.getIdDesenho(),
+				desenho.getRetangulos());
+
+		List<Retangulo> retangulos = controlePrimitivas.getRetangulosBD(desenho
+				.getIdDesenho());
+
 		Assert.assertEquals(5, retangulos.size());
-		
-		controlePrimitivas.removerRetangulos(desenho.getIdDesenho(), desenho.getRetangulos());
+
+		controlePrimitivas.removerRetangulos(desenho.getIdDesenho(),
+				desenho.getRetangulos());
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível salvar e remover elipses do Banco de Dados.
@@ -391,12 +400,12 @@ public class TesteControlePrimitivas {
 				sqlEx.printStackTrace();
 			}
 		}
-		
+
 		Assert.assertEquals(0, quantidadeElipses);
-		
+
 		desenho.removerDesenhoEmBranco();
 	}
-	
+
 	@Test
 	/**
 	 * Testa se é possível adquirir as elipses de um determinado desenho do Banco de Dados.
@@ -415,15 +424,18 @@ public class TesteControlePrimitivas {
 		desenho.adicionarElipse(retangulo2);
 		desenho.adicionarElipse(retangulo3);
 		desenho.adicionarElipse(retangulo4);
-		
+
 		desenho.salvarDesenhoEmBranco();
-		controlePrimitivas.salvarElipses(desenho.getIdDesenho(), desenho.getElipses());
-		
-		List<Elipse> elipses = controlePrimitivas.getElipsesBD(desenho.getIdDesenho());
-		
+		controlePrimitivas.salvarElipses(desenho.getIdDesenho(),
+				desenho.getElipses());
+
+		List<Elipse> elipses = controlePrimitivas.getElipsesBD(desenho
+				.getIdDesenho());
+
 		Assert.assertEquals(5, elipses.size());
-		
-		controlePrimitivas.removerElipses(desenho.getIdDesenho(), desenho.getElipses());
+
+		controlePrimitivas.removerElipses(desenho.getIdDesenho(),
+				desenho.getElipses());
 		desenho.removerDesenhoEmBranco();
 	}
 }

@@ -31,6 +31,8 @@ public class Desenho {
 	 * 
 	 * @param aNomeDesenho
 	 *            Nome do desenho.
+	 * @param aBancoDados
+	 *            Conexão com o Banco de Dados.
 	 */
 	public Desenho(String aNomeDesenho, BancoDados aBancoDados) {
 		this.nomeDesenho = aNomeDesenho;
@@ -47,15 +49,23 @@ public class Desenho {
 		elipses = new ArrayList<Elipse>();
 	}
 
+	/**
+	 * Cria um novo desenho.
+	 * 
+	 * @param aIdDesenho
+	 *            Identificado do desenho no Banco de Dados.
+	 * @param aBancoDados
+	 *            Conexão com o Banco de Dados.
+	 */
 	public Desenho(int aIdDesenho, BancoDados aBancoDados) {
 		// Inicializa os controles
 		controleDesenho = new ControleDesenhos(aBancoDados);
 		controlePrimitivas = new ControlePrimitivas(aBancoDados);
-		
+
 		Desenho tempDesenho = controleDesenho.getDesenho(aIdDesenho);
 		nomeDesenho = tempDesenho.getNomeDesenho();
 		idDesenho = aIdDesenho;
-		
+
 		pontos = controlePrimitivas.getPontosBD(aIdDesenho);
 		retas = controlePrimitivas.getRetasBD(aIdDesenho);
 		retangulos = controlePrimitivas.getRetangulosBD(aIdDesenho);
@@ -92,6 +102,13 @@ public class Desenho {
 		return controleDesenho.removerDesenhoEmBranco(this);
 	}
 
+	/**
+	 * Salva todo o desenho no Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todo o desenho tenha sido salvo no
+	 *         Banco de Dados. Ou retorna <code>false</code> caso tenha ocorrido
+	 *         um erro durante o processo de salvar o desenho no Banco de Dados.
+	 */
 	public boolean salvarDesenho() {
 		if (salvarDesenhoEmBranco()) {
 			if (salvarTodosPontos()) {
@@ -108,6 +125,15 @@ public class Desenho {
 		return false;
 	}
 
+	/**
+	 * Remove todo o desenho do Banco de Dados, isto é, o desenho e suas
+	 * primitivas.
+	 * 
+	 * @return Retorna <code>true</code> caso o desenho e suas primitivas tenham
+	 *         sido removidas do Banco de Dados. Retorna <code>false</code> caso
+	 *         tenha acontecido algum erro durante o processo de remover o
+	 *         desenho e suas primitivas do Banco de Dados.
+	 */
 	public boolean removerDesenho() {
 		if (removerTodasElipses()) {
 			if (removerTodosRetangulos()) {
@@ -233,10 +259,26 @@ public class Desenho {
 		return false;
 	}
 
+	/**
+	 * Salva todas as retas deste desenho no Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todas as retas tenham sido salvas
+	 *         no Banco de Dados. Retorna <code>false</code> caso tenha
+	 *         acontecido algum erro durante o processo de salvar as retas no
+	 *         Banco de Dados.
+	 */
 	private boolean salvarTodasRetas() {
 		return controlePrimitivas.salvarRetas(idDesenho, retas);
 	}
 
+	/**
+	 * Remove todas as retas deste desenho do Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todas as retas do desenho tenham
+	 *         sido removidas do Banco de Dados. Retorna <code>false</code> caso
+	 *         tenha acontecido algum erro durante o processo de remover as
+	 *         retas do Banco de Dados.
+	 */
 	private boolean removerTodasRetas() {
 		if (controlePrimitivas.removerRetas(idDesenho, retas)) {
 			retas.clear();
@@ -246,10 +288,26 @@ public class Desenho {
 		return false;
 	}
 
+	/**
+	 * Salva todos os retângulos deste desenho no Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso os retângulos deste desenho tenham
+	 *         sido salvos no Banco de Dados. Retorna <code>false</code> caso
+	 *         tenha acontecido algum erro durante o processo de salvar os
+	 *         retângulos deste desenho no Banco de Dados.
+	 */
 	private boolean salvarTodosRetangulos() {
 		return controlePrimitivas.salvarRetangulos(idDesenho, retangulos);
 	}
 
+	/**
+	 * Remove todos os retângulos deste desenho do Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todas os retângulos do desenho
+	 *         tenham sido removidos do Banco de Dados. Retorna
+	 *         <code>false</code> caso tenha acontecido algum erro durante o
+	 *         processo de remover os retângulos do Banco de Dados.
+	 */
 	private boolean removerTodosRetangulos() {
 		if (controlePrimitivas.removerRetangulos(idDesenho, retangulos)) {
 			retangulos.clear();
@@ -259,10 +317,26 @@ public class Desenho {
 		return false;
 	}
 
+	/**
+	 * Salva todas as elipses deste desenho no Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso as elipses deste desenho tenham
+	 *         sido salvas no Banco de Dados. Retorna <code>false</code> caso
+	 *         tenha acontecido algum erro durante o processo de salvar as
+	 *         elipses deste desenho no Banco de Dados.
+	 */
 	private boolean salvarTodasElipses() {
 		return controlePrimitivas.salvarElipses(idDesenho, elipses);
 	}
 
+	/**
+	 * Remove todas as elipses deste desenho do Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todas as elipses do desenho tenham
+	 *         sido removidas do Banco de Dados. Retorna <code>false</code> caso
+	 *         tenha acontecido algum erro durante o processo de remover as
+	 *         elipses do Banco de Dados.
+	 */
 	private boolean removerTodasElipses() {
 		if (controlePrimitivas.removerElipses(idDesenho, elipses)) {
 			elipses.clear();
@@ -271,18 +345,26 @@ public class Desenho {
 
 		return false;
 	}
-	
+
+	/**
+	 * Salva todas as primitivas deste desenho no Banco de Dados.
+	 * 
+	 * @return Retorna <code>true</code> caso todas as primitivas do desenho
+	 *         tenham sido salvas no Banco de Dados. Retorna <code>false</code>
+	 *         caso tenha acontecido algum erro durante o processo de salvar as
+	 *         primitivas no Banco de Dados.
+	 */
 	public boolean salvarTodasPrimitivas() {
-		if(salvarTodosPontos()) {
-			if(salvarTodasRetas()) {
-				if(salvarTodosRetangulos()) {
-					if(salvarTodasElipses()) {
+		if (salvarTodosPontos()) {
+			if (salvarTodasRetas()) {
+				if (salvarTodosRetangulos()) {
+					if (salvarTodasElipses()) {
 						return true;
 					}
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
